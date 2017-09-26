@@ -44,7 +44,7 @@ HTML("<h5 id='title' style='text-align:center;' >Gulf of Mexico <br> Fishery Man
                     )),
      dashboardBody(
           tabItems(
-               tabItem(tabName='map',
+               tabItem(tabName='map',includeHTML('modalHTML5.html'),
                        includeScript('modalJS.js'),
                        # tabItem(tabName='map',includeHTML('modalHTML4.html'),
                        #         includeScript('modalJS.js'),

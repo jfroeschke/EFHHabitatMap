@@ -29,7 +29,7 @@ server <- function(input, output) {
               markerOptions = TRUE,
               polylineOptions =  FALSE,
               polygonOptions =  FALSE, 
-              rectangleOptions = FALSE,
+              rectangleOptions = TRUE,
               editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions()))
 
       })
@@ -53,8 +53,8 @@ server <- function(input, output) {
       boxCoords <- reactive({
         tmp <- data.frame(unlist(input$map_draw_new_feature[3]))
         df <- data.frame(tmp)
-        df <- data.frame(x=df[2,1], y=df[3,1])
-          #df <- data.frame(x=tmp[c(2,4, 6,8, 10),1], y=tmp[c(3,5,7,9,11),1])
+        #df <- data.frame(x=df[2,1], y=df[3,1])
+          df <- data.frame(x=tmp[c(2,4, 6,8, 10),1], y=tmp[c(3,5,7,9,11),1])
          df <- na.omit(df)
           #str(df)
          df$x <- as.numeric(as.character(df$x))
@@ -66,34 +66,87 @@ server <- function(input, output) {
          df
       })
       
+      
       output$test <- renderTable({boxCoords()})
-      ####################reactive for point in polygon
+      output$NROW <- renderTable({nrow(boxCoords())})
+      
+
       ### uses output from box coords reactive as input
           PIP <- reactive({
-            # validate(need(input$map_click, FALSE)) #prevents error on load
-            # point <- as.numeric(as.character(input$map_click[2:1]))
-            #point <- data.frame(c(-85, 29))
-            point <- as.numeric(as.character(boxCoords()))
-            x <- st_point(point)
-            CoralPIP <- st_intersects(x, Coral, sparse=FALSE)
-            CMPPIP <- st_intersects(x, CMP, sparse=FALSE)
-            RedDrumPIP <- st_intersects(x, RedDrum, sparse=FALSE)
-            ReefFishPIP <- st_intersects(x, ReefFish, sparse=FALSE)
-            ShrimpPIP <- st_intersects(x, Shrimp, sparse=FALSE)
-            SpinyLobsterPIP <- st_intersects(x, SpinyLobster, sparse=FALSE)
-            EFHout$EFH <- c( CMPPIP, CoralPIP,
-                            RedDrumPIP, ReefFishPIP,ShrimpPIP,SpinyLobsterPIP)
-            #EFHout$shapefile <- HTML('<a target="_blank" href="http://sero.nmfs.noaa.gov/maps_gis_data/fisheries/gom/documents/spanish_mackerelzones.txt">Section 622.369—Migratory groups of Spanish mackerel</a>. <br> Maps: <br> GIS Data: <a href="http://portal.gulfcouncil.org/Regulations/spanish_mackerel_po.zip">Shapefile</a>')
-            EFHout$Lat <- point[2]
-            EFHout$Long <- point[1]
+####################Start point in polygon##############            
+            if(nrow(boxCoords())==1){
+            #df <- data.frame(x=-9999)
+              ## put in some logic for nrow, if equal 1 do this, else rectangle
+              point <- as.numeric(as.character(boxCoords()))
+              x <- st_point(point)
+              CoralPIP <- st_intersects(x, Coral, sparse=FALSE)
+              CMPPIP <- st_intersects(x, CMP, sparse=FALSE)
+              RedDrumPIP <- st_intersects(x, RedDrum, sparse=FALSE)
+              ReefFishPIP <- st_intersects(x, ReefFish, sparse=FALSE)
+              ShrimpPIP <- st_intersects(x, Shrimp, sparse=FALSE)
+              SpinyLobsterPIP <- st_intersects(x, SpinyLobster, sparse=FALSE)
+              EFHout$EFH <- c( CMPPIP, CoralPIP,
+                               RedDrumPIP, ReefFishPIP,ShrimpPIP,SpinyLobsterPIP)
+              #EFHout$shapefile <- HTML('<a target="_blank" href="http://sero.nmfs.noaa.gov/maps_gis_data/fisheries/gom/documents/spanish_mackerelzones.txt">Section 622.369—Migratory groups of Spanish mackerel</a>. <br> Maps: <br> GIS Data: <a href="http://portal.gulfcouncil.org/Regulations/spanish_mackerel_po.zip">Shapefile</a>')
+              EFHout$Lat <- point[2]
+              EFHout$Long <- point[1]
+              EFHout
+              
+              } else
+####################End point in polygon##############               
+    
+####################Start polygon in polygon##############                
+            if(nrow(boxCoords())==5){
+            coords <- as.matrix(boxCoords())
+            P1 <- Polygon(coords)
+            Ps1 <- SpatialPolygons(list(Polygons(list(P1), ID = "a")),
+                                   proj4string=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+            Ps2SF <- st_as_sfc(Ps1)
+            #### CMP
+            IntersectionOut <-  st_intersection(Ps2SF, CMP)
+            df <- as.data.frame(IntersectionOut)
+            dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+            EFHout$EFH[1] <- ifelse(dfNROW >0, 'yes', 'no')
+            #### End CMP
+            
+            ####Coral
+            IntersectionOut <-  st_intersection(Ps2SF, Coral)
+            df <- as.data.frame(IntersectionOut)
+            dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+            EFHout$EFH[2] <- ifelse(dfNROW >0, 'yes', 'no')
+            #### End Coral
+            ####RedDrum
+            IntersectionOut <-  st_intersection(Ps2SF, RedDrum)
+            df <- as.data.frame(IntersectionOut)
+            dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+            EFHout$EFH[3] <- ifelse(dfNROW >0, 'yes', 'no')
+            #### End RedDrum
+            ####ReefFish
+            IntersectionOut <-  st_intersection(Ps2SF, ReefFish)
+            df <- as.data.frame(IntersectionOut)
+            dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+            EFHout$EFH[4] <- ifelse(dfNROW >0, 'yes', 'no')
+            #### End ReefFish
+            ####Shrimp
+            IntersectionOut <-  st_intersection(Ps2SF, Shrimp)
+            df <- as.data.frame(IntersectionOut)
+            dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+            EFHout$EFH[5] <- ifelse(dfNROW >0, 'yes', 'no')
+            #### End Shrimp
+            ####SpinyLobster
+            IntersectionOut <-  st_intersection(Ps2SF, SpinyLobster)
+            df <- as.data.frame(IntersectionOut)
+            dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+            EFHout$EFH[6] <- ifelse(dfNROW >0, 'yes', 'no')
+            #### End SpinyLobster
+            EFHout
+            }
             EFHout
           })
           
           output$out3 <- renderTable({
-         
             PIP()
-            #validate(need(nrow(PIP()) >0, "No data to show"))
-          })
+              })
           
           output$out4 <- renderText({boxCoords()})
          

@@ -8,6 +8,10 @@ dashboardPage(
             
                     menuItem(" ", tabName = "map",selected=TRUE),
                     tags$head(includeCSS("Style.css")),
+                    tags$style(type="text/css",
+                               ".shiny-output-error { visibility: hidden; }",
+                               ".shiny-output-error:before { visibility: hidden; }"
+                    ),
                     
                     div(img(src="logo.png"), style="text-align: center;"),
                     div(
@@ -16,6 +20,7 @@ dashboardPage(
                                      c("Coastal Migratory Pelagic" = "CMP", ##removed for now
                                         "Coral and Coral Reefs" = "CORAL",
                                         "Spiny Lobster" = "LOBSTER",
+                                        #"Red Drum" = "REDDRUM",
                                         "Reef Fish" = "REEF",
                                         "Shrimp" = "SHRIMP"
                                        ),
@@ -39,13 +44,17 @@ HTML("<h5 id='title' style='text-align:center;' >Gulf of Mexico <br> Fishery Man
                     )),
      dashboardBody(
           tabItems(
-               tabItem(tabName='map',includeHTML('modalHTML4.html'),
+               tabItem(tabName='map',
                        includeScript('modalJS.js'),
+                       # tabItem(tabName='map',includeHTML('modalHTML4.html'),
+                       #         includeScript('modalJS.js'),
                        #tags$img(src="HAPCViewerBanner.png",  width="100%"),
                      HTML("<h3 id='title' style='color: white;' >Essential Fish Habitat Mapping Application for the Gulf of Mexico Fisheries</h3>"),
                   leafletOutput('map',height=600),
-                  #textOutput("test"),
-                  tableOutput("out4"),
+                  tableOutput("test"),
+                  #textOutput("test2"),
+                  #tableOutput("out4"),
+                  #uiOutput("ui")
                   box(tableOutput("out3"), width=6)
   
                   #box(htmlTableWidgetOutput("EFHtable"), width=6)#,

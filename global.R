@@ -12,6 +12,7 @@ library(dplyr)
 library(sf)
 library(htmltools)
 library(leaflet.extras)
+library(shinyBS)
 
 #EXTENT <- extent(c(-100.42, -69.59, 20.82, 32.57))
 enableBookmarking(store = "url")
@@ -48,4 +49,4 @@ EFHout <- data.frame(FMP=c("Coastal Migratory Pelagics",
                            "Red drum",
                            "Reef fish",
                            "Shrimp",
-                           "Spiny lobster"))
+                           "Spiny lobster"))#, EFH=rep(" " ,6), Lat=rep(" ",6), Long=rep(" ",6))

@@ -30,7 +30,9 @@ server <- function(input, output) {
               polylineOptions =  FALSE,
               polygonOptions =  FALSE, 
               rectangleOptions = TRUE,
-              editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions()))
+              #editOptions = editToolbarOptions(selectedPathOptions = selectedPathOptions())
+              editOptions = editToolbarOptions(edit=FALSE, remove=TRUE)
+              )
 
       })
   
@@ -87,6 +89,7 @@ server <- function(input, output) {
               SpinyLobsterPIP <- st_intersects(x, SpinyLobster, sparse=FALSE)
               EFHout$EFH <- c( CMPPIP, CoralPIP,
                                RedDrumPIP, ReefFishPIP,ShrimpPIP,SpinyLobsterPIP)
+              EFHout$EFH <- ifelse(EFHout$EFH==TRUE, 'yes', 'no')
               #EFHout$shapefile <- HTML('<a target="_blank" href="http://sero.nmfs.noaa.gov/maps_gis_data/fisheries/gom/documents/spanish_mackerelzones.txt">Section 622.369—Migratory groups of Spanish mackerel</a>. <br> Maps: <br> GIS Data: <a href="http://portal.gulfcouncil.org/Regulations/spanish_mackerel_po.zip">Shapefile</a>')
               EFHout$Lat <- point[2]
               EFHout$Long <- point[1]
@@ -144,13 +147,55 @@ server <- function(input, output) {
             EFHout
           })
           
+          countEFH <- reactive({
+            x <- ifelse(PIP()$EFH=='yes', 1,0)
+            y <- sum(x)
+            y
+          })
+          
+          isEFH  <- reactive({
+            ifelse(countEFH()>0, 
+paste("Selected area contains EFH for", countEFH(), "FMPs", sep=" "),"Selected area does not contain EFH")
+          })
+
           output$out3 <- renderTable({
             PIP()
-              })
-          
-          output$out4 <- renderText({boxCoords()})
-         
+              }, hover=TRUE, bordered=TRUE, width="500px")
 
+          output$out4 <- renderText({boxCoords()})
+          
+          ###########value box
+          
+          output$VB <- renderValueBox({
+            # The downloadRate is the number of rows in pkgData since
+            # either startTime or maxAgeSecs ago, whichever is later.
+            
+            
+            infoBox(
+              title="EFH Query Tool",
+              value = countEFH(),
+              subtitle = isEFH(),
+              icon = icon(ifelse(countEFH()==0,
+                                 "check-square", "exclamation-triangle")),
+              color = ifelse(countEFH()==0, "light-blue", "yellow")
+              #color="light-blue"
+            )
+          })
+          
+  ##################### Modal Boxes
+  ### What is EFH modal box
+          output$whatEFH <- renderUI({
+              tags$iframe(src = "EFHdescription.html", seamless=NA, width="100%", style="height: calc(100vh - 80px)",frameborder=0, scrolling="yes")
+          })
+          ### About modal box
+          output$About <- renderUI({
+            tags$iframe(src = "About.html", seamless=NA, width="100%", style="height: calc(100vh - 80px)",frameborder=0, scrolling="yes")
+          })
+          ### Consultation modal box
+          output$Consult <- renderUI({
+            tags$iframe(src = "Consultation.html", seamless=NA, width="100%", style="height: calc(100vh - 80px)",frameborder=0, scrolling="yes")
+          })
+          
       
 }
 

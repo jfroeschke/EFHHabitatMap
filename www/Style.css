@@ -99,3 +99,18 @@ padding-left:20px;
 .leaflet-top{
 padding-top: 15px;
 }
+
+/* restyling click button modal boxes */
+.btn-default {
+    background-color: #3c8dbc;
+    border-color: #3c8dbc;
+}
+
+.modal-body {
+    padding: 0;
+}
+
+div.modal-header {
+    border-bottom: 0;
+    background-color: #3c8dbc;
+}

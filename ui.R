@@ -27,21 +27,29 @@ dashboardPage(
                                         "Shrimp" = "SHRIMP"
                                        ),
                                      selected = c("CORAL")),
-                         style="text-align: center; background-color: #7093cc; border-radius: 5px; padding: 5px 15px 5px 15px;"),
+                         style="text-align: center; background-color: #3c8dbc; border-radius: 5px; padding: 5px 15px 5px 15px;"),
 
+                    br(),
+                    br(),
+                    br(),
+                    br(),
+                    br(),
+                    br(),
+                    br(),
                     br(),
                    
                     actionButton("tabBut", HTML('<h4>What is EFH?</h4>'), width=200, 
-                                 style="background-color: #7093cc; color: #fff;margin: 6px 0px 6px 0px;" ),
+                                 style="background-color: #3c8dbc; color: #fff;margin: 6px 0px 6px 0px;" ),
                     actionButton("tabAbout", HTML('<h4>About</h4>'), width=200,
-                                 style="background-color: #7093cc; color: #fff;margin: 6px 0px 6px 0px;" ),
+                                 style="background-color: #3c8dbc; color: #fff;margin: 6px 0px 6px 0px;" ),
                     actionButton("tabConsult", HTML('<h4>EFH Consultation</h4>'), width=200,
-                                 style="background-color: #7093cc; color: #fff;margin: 6px 0px 6px 0px;" ),
+                                 style="background-color: #3c8dbc; color: #fff;margin: 6px 0px 6px 0px;" ),
                     actionButton("tabDL", HTML('<h4>Download EFH data</h4>'), width=200,
-                                 style="background-color: #7093cc; color: #fff; margin: 6px 0px 6px 0px;" ),
-                    br(),
+                                 style="background-color: #3c8dbc; color: #fff; margin: 6px 0px 6px 0px;" ),
+                    
                #actionButton("tabBut", "what is EFH?"),
                     #HTML("EFH Consultation"),
+                    
                     br(),
                     br(),
 
@@ -53,8 +61,9 @@ HTML("<h5 id='title' style='text-align:center;' >Gulf of Mexico <br> Fishery Man
                     )),
      dashboardBody(
           tabItems(
-               tabItem(tabName='map',includeHTML('modalHTML5.html'),
+               tabItem(tabName='map',includeHTML('pageLoadHTML.html'),
                        includeScript('modalJS.js'),
+                       includeCSS('Style.css'),
                        # tabItem(tabName='map',includeHTML('modalHTML4.html'),
                        #         includeScript('modalJS.js'),
                        #tags$img(src="HAPCViewerBanner.png",  width="100%"),

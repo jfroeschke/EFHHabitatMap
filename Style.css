@@ -46,7 +46,7 @@ padding: 10px;
 }
 
 .modal-content {
-                border-radius: 25px;
+    border-radius: 25px;
 }
 
 
@@ -105,4 +105,132 @@ padding-top: 15px;
     padding-bottom: 5px;
     color: azure;
 	font-size: medium;
+}
+
+h4 {
+    margin:0;
+}
+
+section.sidebar .shiny-input-container {
+   padding: 0;
+    white-space: normal;
+}
+
+/* restyling click button modal boxes */
+.btn-default {
+    background-color: #3c8dbc;
+    border-color: #3c8dbc;
+}
+
+#text.modal-body {
+    padding: 0;
+}
+
+.modal-header {
+    border-bottom: 0;
+    background-color: #3c8dbc;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+.modal-footer {
+    background-color: #eee;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+iframe {
+    border:none;
+}
+
+button.btn.btn-default {
+    color: white;
+    background-color: #3c8dbc;
+    border-color: #3c8dbc;
+
+}
+
+/* style for modal box that opens on page load*/
+
+#onOpen.modal-header {
+    background-color: white;
+}
+
+#onOpen.modal-footer {
+    background-color: white;
+}
+
+#onLoad.page-header {
+    margin: 0;
+}
+
+h1 {
+    padding: 15px;
+    display: inline-block;
+}
+
+i {
+    display: inline-block;
+    vertical-align: sub;
+    padding-left: 8%;
+}
+
+i.fa.fa-image {
+    font-size: 50px;
+    color: white;
+}
+
+i.fa.fa-info-circle {
+    font-size: 50px;
+    color: white;
+}
+
+i.fa.fa-exclamation-triangle {
+    font-size: 50px;
+    color: white;
+}
+
+.page-header {
+    background: #3c8dbc;
+}
+
+p{
+	-moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-font-smoothing: antialiased !important;
+  text-rendering: optimizelegibility !important;
+	letter-spacing: .03em;
+    color: #777;
+    font-size: 16px;
+	font-family: "Roboto", Arial;
+	line-height: 1.25em;
+	padding: 0 0 1em 0;
+	text-align: justify;
+}
+p#first{
+    padding-top: 15px;
+}
+
+#text.fluid-container {
+    background-color: #eee;
+    margin: 0;
+    padding-right: 50px;
+    padding-left: 50px;
+
+}
+
+html {
+    background-color: #eee;
+}
+
+body {
+    margin: 0;
+}
+p#consult{
+    margin: 0;
+    padding:0;
+}
+
+.modal-body{
+    padding: 0;
 }

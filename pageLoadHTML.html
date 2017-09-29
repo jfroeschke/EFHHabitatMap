@@ -1,26 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="popupCSS.css" type="text/css">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  </head>
-  <body>
-
-  <div class="fluid-container" id="head">
-      <div class="page-header">
+<div class="modal fade" id="memberModal" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                 <!--<h4 class="modal-title" id="memberModalLabel" style="text-align: center;"><b><u>Gulf of Mexico Fishery Management Areas</u></b></h4>-->
+				 <!--<h6 class="modal-title" id="memberModalLabel" style="text-align: center;">*The mobile version of this site works in Safari for iPhone and Google Chrome for Android devices</h6> -->
+            </div>
+         
+<div class="modal-body" id="text">
+    <div class="fluid-container" id="head">
+      <div class="page-header" id="onLoad">
           <i class="fa fa-info-circle" aria-hidden="true"></i>
           <h1 style="color:white;">About</h1>
           
         </div>
-  </div>
+    </div>
 
-  <div class="fluid-container" id="text">
+    <div class="fluid-container" id="text">
     <div class='col-md-12'>
       <p id="first">This map allows you <b>visualize</b> where essential fish habitat (EFH) is located in the Gulf of Mexico by fishery management plan (FMP), 
         but to really get the most out of the map use the <b>pin or draw tool</b> to see which EFH layers exist in any area of the Gulf.  If you 
@@ -35,15 +32,13 @@
         didn’t read this disclaimer when you opened the webpage).  If you’re looking for the legal definitions, click <a href="http://sero.nmfs.noaa.gov/maps_gis_data/habitat_conservation/efh_gom/" target="_blank">here</a>.</p>
         
         <p id='last'>If you want to download the <b>shapefiles</b> for your own use, see the 'Download EFH Data' link and if you have any questions about the data please <a href="mailto: portal@gulfcouncil.org"> contact us</a>.</p>
+        </div>
     </div>
-  </div>
+</div>
 
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-  </body>
-</html>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>

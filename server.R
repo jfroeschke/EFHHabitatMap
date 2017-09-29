@@ -185,15 +185,15 @@ paste("Selected area contains EFH for", countEFH(), "FMPs", sep=" "),"Selected a
   ##################### Modal Boxes
   ### What is EFH modal box
           output$whatEFH <- renderUI({
-              tags$iframe(src = "EFHdescription.html", seamless=NA, width="100%", style="height: calc(100vh - 80px)",frameborder=0, scrolling="yes")
+              tags$iframe(src = "EFHdescription.html", seamless=NA, width="100%", style="height:58vh;",frameborder=0, scrolling="yes")
           })
           ### About modal box
           output$About <- renderUI({
-            tags$iframe(src = "About.html", seamless=NA, width="100%", style="height: calc(100vh - 80px)",frameborder=0, scrolling="yes")
+            tags$iframe(src = "About.html", seamless=NA, style="height: 65vh;",width="100%",frameborder=0, scrolling="yes")
           })
           ### Consultation modal box
           output$Consult <- renderUI({
-            tags$iframe(src = "Consultation.html", seamless=NA, width="100%", style="height: calc(100vh - 80px)",frameborder=0, scrolling="yes")
+            tags$iframe(src = "Consultation.html", seamless=NA, width="100%", style="height: 150vh;",frameborder=0, scrolling="yes")
           })
           
       

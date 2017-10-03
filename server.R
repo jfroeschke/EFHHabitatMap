@@ -195,8 +195,108 @@ paste("Selected area contains EFH for", countEFH(), "FMPs", sep=" "),"Selected a
           output$Consult <- renderUI({
             tags$iframe(src = "Consultation.html", seamless=NA, width="100%", style="height: 150vh;",frameborder=0, scrolling="yes")
           })
+    
+####################### shapefile upload ##########################
+          userFile <- reactive({
+            validate(need(input$shp_file, message=FALSE))
+            input$shp_file
+          })
           
-      
+          shp <- reactive({
+            req(input$shp_file)
+            if(!is.data.frame(userFile())) return()
+            infiles <- userFile()$datapath
+            dir <- unique(dirname(infiles))
+            outfiles <- file.path(dir, userFile()$name)
+            purrr::walk2(infiles, outfiles, ~file.rename(.x, .y))
+            x <- try(readOGR(dir, strsplit(userFile()$name[1], "\\.")[[1]][1]), TRUE)
+            if(class(x)=="try-error") NULL else x
+          })
+          
+          valid_proj <- reactive({ req(shp()); if(is.na(proj4string(shp()))) FALSE else TRUE })
+          
+          shp_wgs84 <- reactive({
+            req(shp(), valid_proj())
+            if(valid_proj()) spTransform(shp(), CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")) else NULL
+          })
+          
+          shp_SF <- reactive({
+            Ps2SF <- st_as_sfc(shp_wgs84())
+          })
+          
+          check_Bounds <-reactive({
+            IntersectionOut <-  st_intersection(shp_SF(), Ps2SF)
+            df <- as.data.frame(IntersectionOut)
+            dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+            dfNROW
+          })
+          
+          PIP2 <- reactive({
+            ####################Start point in polygon##############            
+           
+              #### CMP
+              IntersectionOut <-  st_intersection(shp_SF(), CMP)
+              df <- as.data.frame(IntersectionOut)
+              dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+              EFHout$EFH[1] <- ifelse(dfNROW >0, 'yes', 'no')
+              #### End CMP
+              
+              ####Coral
+              IntersectionOut <-  st_intersection(shp_SF(), Coral)
+              df <- as.data.frame(IntersectionOut)
+              dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+              EFHout$EFH[2] <- ifelse(dfNROW >0, 'yes', 'no')
+              #### End Coral
+              ####RedDrum
+              IntersectionOut <-  st_intersection(shp_SF(), RedDrum)
+              df <- as.data.frame(IntersectionOut)
+              dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+              EFHout$EFH[3] <- ifelse(dfNROW >0, 'yes', 'no')
+              #### End RedDrum
+              ####ReefFish
+              IntersectionOut <-  st_intersection(shp_SF(), ReefFish)
+              df <- as.data.frame(IntersectionOut)
+              dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+              EFHout$EFH[4] <- ifelse(dfNROW >0, 'yes', 'no')
+              #### End ReefFish
+              ####Shrimp
+              IntersectionOut <-  st_intersection(shp_SF(), Shrimp)
+              df <- as.data.frame(IntersectionOut)
+              dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+              EFHout$EFH[5] <- ifelse(dfNROW >0, 'yes', 'no')
+              #### End Shrimp
+              ####SpinyLobster
+              IntersectionOut <-  st_intersection(shp_SF(), SpinyLobster)
+              df <- as.data.frame(IntersectionOut)
+              dfNROW <- nrow(df) ##if nrow > 0 then positive intersection
+              EFHout$EFH[6] <- ifelse(dfNROW >0, 'yes', 'no')
+              #### End SpinyLobster
+              EFHout
+         
+          }) ##end PIP2
+          
+          countEFH2 <- reactive({
+            x <- ifelse(PIP2()$EFH=='yes', 1,0)
+            y <- sum(x)
+            y
+          })
+          
+          isEFH2  <- reactive({
+            ifelse(countEFH2()>0, 
+                   paste("Selected area contains EFH for", countEFH2(), "FMPs", sep=" "),"Selected area does not contain EFH")
+          }) 
+          
+          output$out32 <- renderTable({
+            PIP2()
+          }, hover=TRUE, bordered=TRUE, width="500px")
+          
+          observe({
+            map  <- leafletProxy('map')
+            map <- map %>%  addPolygons(data=shp_SF(), group='upload')
+            map
+          })
+          
+####################### end shapefile upload ##########################     
 }
 
 

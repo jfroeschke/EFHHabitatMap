@@ -86,9 +86,16 @@ HTML("<h5 id='title' style='text-align:center;' >Gulf of Mexico <br> Fishery Man
 # 
 #                     width=8),
                   infoBoxOutput('VB'),
-                  box(tableOutput("out3"),width=4,  style="background-color: #000a1b")
-  
-                  #box(htmlTableWidgetOutput("EFHtable"), width=6)#,
+                  box(tableOutput("out3"),width=4,  style="background-color: #000a1b"),
+                  box(     fileInput("shp_file", "Choose polygon shapefile File",
+                                     accept=c(".shp",".dbf",
+                                              ".sbn",".sbx",
+                                              ".shx",".prj", "pdf"),
+                                     multiple=TRUE
+                  ),
+                    width=4,  style="background-color: #000a1b"),
+box(tableOutput("out32"),width=4,  style="background-color: #000a1b")
+          
 
                   )#,
 

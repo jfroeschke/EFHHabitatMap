@@ -3,6 +3,7 @@
 ## Data source: http://sero.nmfs.noaa.gov/
 ## mxd's for map services here: X:\Data_John\shiny\git\EFHHabitatMap\mxd
 #
+
 library(shiny)
 library(shinydashboard)
 library(sp)
@@ -13,7 +14,7 @@ library(sf)
 library(htmltools)
 library(leaflet.extras)
 library(shinyBS)
-
+library(rgdal)
 #EXTENT <- extent(c(-100.42, -69.59, 20.82, 32.57))
 enableBookmarking(store = "url")
 
@@ -50,3 +51,19 @@ EFHout <- data.frame(FMP=c("Coastal Migratory Pelagics",
                            "Reef fish",
                            "Shrimp",
                            "Spiny lobster"))#, EFH=rep(" " ,6), Lat=rep(" ",6), Long=rep(" ",6))
+
+
+######### Create an sp object descrbing extent
+
+coords <- matrix(c(-99, 32,
+                   -99, 23,
+                   -80, 23,
+                   -80, 32,
+                   -99, 32), 
+                 ncol = 2, byrow = TRUE)
+P1 <- Polygon(coords)
+Ps1 <- SpatialPolygons(list(Polygons(list(P1), ID = "a")),
+                       proj4string=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+Ps2SF <- st_as_sfc(Ps1)
+
+##### 

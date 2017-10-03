@@ -234,3 +234,7 @@ p#consult{
 .modal-body{
     padding: 0;
 }
+
+div.info-box-content p {
+    padding-bottom: 0;
+}

@@ -17,8 +17,9 @@ dashboardPage(
                     tags$style(type='text/css', ".selectize-input { font-size: 16px; line-height: 18px;} .selectize-dropdown { font-size: 16px; line-height: 18px; }"),
                     br(),
                     div(
-                         selectInput("selectFMP", multiple=TRUE,
-                                     h3("Select Fishery Management Plan:"),
+                         selectInput("selectFMP", multiple=TRUE, 
+                                        selectize=TRUE,
+                                     h3("Select 1 or more Fishery Management Plans:"),
                                      c("Coastal Migratory Pelagic" = "CMP", 
                                         "Coral and Coral Reefs" = "CORAL",
                                         "Spiny Lobster" = "LOBSTER",
@@ -26,7 +27,7 @@ dashboardPage(
                                         "Reef Fish" = "REEF",
                                         "Shrimp" = "SHRIMP"
                                        ),
-                                     selected = c("CORAL")),
+                                     selected = c("CORAL", "SHRIMP")),
                          style="text-align: center; background-color: #3c8dbc; border-radius: 5px; padding: 5px 15px 5px 15px;"),
 
                     br(),
